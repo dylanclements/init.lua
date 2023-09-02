@@ -7,6 +7,7 @@ lsp.ensure_installed({
   'eslint',
   'rust_analyzer',
   'elixirls',
+  'pylsp',
 })
 
 
