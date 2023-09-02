@@ -39,8 +39,6 @@ vim.keymap.set("n", "<leader>vpp", "<cmd>e ~/.config/nvim/lua/dylanclements/pack
 vim.keymap.set("n", "<leader>mr", "<cmd>CellularAutomaton make_it_rain<CR>");
 vim.keymap.set("n", "<leader>gl", "<cmd>CellularAutomaton game_of_life<CR>");
 
-vim.keymap.set("n", "<leader><", "5<C-W><");
 vim.keymap.set("n", "<leader>>", "5<C-W>>");
-
-
+vim.keymap.set("n", "<leader><", "5<C-W><");
 
