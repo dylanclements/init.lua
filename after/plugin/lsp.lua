@@ -6,8 +6,6 @@ lsp.ensure_installed({
   'tsserver',
   'eslint',
   'rust_analyzer',
-  'elixirls',
-  'pylsp',
 })
 
 
@@ -40,3 +38,4 @@ lsp.on_attach(function(client, bufnr)
 end)
 
 lsp.setup()
+
