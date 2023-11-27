@@ -42,3 +42,7 @@ vim.keymap.set("n", "<leader>gl", "<cmd>CellularAutomaton game_of_life<CR>");
 vim.keymap.set("n", "<leader>>", "5<C-W>>");
 vim.keymap.set("n", "<leader><", "5<C-W><");
 
+-- exit terminal buffer and enter normal mode
+vim.keymap.set("t", "<C-w>n", "<C-\\><C-n>");
+
+vim.keymap.set("n", "<leader>pr", ":!yarn prettier --write .");
