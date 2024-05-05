@@ -1,21 +1,32 @@
+-- set leader to the space bar
 vim.g.mapleader = " "
+
+-- to exit the currrent buffer into netrw
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
+-- In visual mode, move the highlighted text up or down with J/K
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
-vim.keymap.set("n", "J", "mzJ`z")
+-- ctrl-d / ctrl-u in normal mode to move the cursor up and down the file
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
+
+-- join next line with current but move the cursor back to origin
+vim.keymap.set("n", "J", "mzJ`z")
+
+-- centre the cursor after searching for text, open and closed folds
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
--- greatest remap ever
+-- [
+-- replace the visual selection with the default register 
+-- contents without altering the default register
+-- ]
 vim.keymap.set("x", "<leader>p", [["_dP]])
 
--- next greatest remap ever : asbjornHaland
+-- yank to the system clipboard
 vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
-
 vim.keymap.set("n", "<leader>Y", [["+Y]])
 
 vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
