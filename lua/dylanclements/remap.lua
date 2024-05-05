@@ -29,31 +29,46 @@ vim.keymap.set("x", "<leader>p", [["_dP]])
 vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
 
+-- delete to the black hole register
 vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
 
--- This is going to get me cancelled
+-- another way to escape
 vim.keymap.set("i", "<C-c>", "<Esc>")
 
+-- no-op Q because it may conflict with exiting or something idk
 vim.keymap.set("n", "Q", "<nop>")
-vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
+
+-- some tmux thing, not sure if this is needed
+-- vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux new tmux-sessionizer<CR>")
+
+-- formatting
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 
+-- move to next/prev item in vim quickfix list
 vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
 vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
+
+-- move to next/prev item in the location list
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 
+-- search 
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+
+-- grand executable permission to file
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 
+-- go to packer.lua
 vim.keymap.set("n", "<leader>vpp", "<cmd>e ~/.config/nvim/lua/dylanclements/packer.lua<CR>");
+
+-- cosmetic animations
 vim.keymap.set("n", "<leader>mr", "<cmd>CellularAutomaton make_it_rain<CR>");
 vim.keymap.set("n", "<leader>gl", "<cmd>CellularAutomaton game_of_life<CR>");
 
+-- increase the width of windows
 vim.keymap.set("n", "<leader>>", "5<C-W>>");
 vim.keymap.set("n", "<leader><", "5<C-W><");
 
 -- exit terminal buffer and enter normal mode
 vim.keymap.set("t", "<C-w>n", "<C-\\><C-n>");
 
-vim.keymap.set("n", "<leader>pr", ":!yarn prettier --write .");
