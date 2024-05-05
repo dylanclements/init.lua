@@ -48,5 +48,9 @@ return require('packer').startup(function(use)
         }
     }
     use 'eandrju/cellular-automaton.nvim'
-    use 'github/copilot.vim'
+
+    -- use 'github/copilot.vim'
+
+    use 'mfussenegger/nvim-jdtls'    
+
 end) 
