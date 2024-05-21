@@ -7,12 +7,14 @@ return require('packer').startup(function(use)
     -- Packer can manage itself
     use 'wbthomason/packer.nvim'
 
+    -- fuzzy finder
     use {
         'nvim-telescope/telescope.nvim', tag = '0.1.1',
         -- or                            , branch = '0.1.x',
         requires = { {'nvim-lua/plenary.nvim'} }
     }
 
+    -- dracula theme
     use({ 
         'Mofiqul/dracula.nvim',
         as = 'dracula',  
@@ -21,12 +23,20 @@ return require('packer').startup(function(use)
         end
     })
 
+    -- syntax highlighting
     use('nvim-treesitter/nvim-treesitter', { run = ":TSUpdate" })
     use('nvim-treesitter/playground')
+
+    -- harpoon, easily switch between buffers
     use('theprimeagen/harpoon')
+
+    -- undotree (non-linear undo)
     use('mbbill/undotree')
+
+    -- a git wrapper for neovim
     use('tpope/vim-fugitive')
 
+    -- lsp
     use {
         'VonHeikemen/lsp-zero.nvim',
         branch = 'v2.x',
@@ -47,10 +57,13 @@ return require('packer').startup(function(use)
             {'L3MON4D3/LuaSnip'},     -- Required
         }
     }
+
+    -- cosmetic animations, just for fun
     use 'eandrju/cellular-automaton.nvim'
 
     -- use 'github/copilot.vim'
 
+    -- java tools
     use 'mfussenegger/nvim-jdtls'    
 
 end) 

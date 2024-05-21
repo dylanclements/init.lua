@@ -72,3 +72,9 @@ vim.keymap.set("n", "<leader><", "5<C-W><");
 -- exit terminal buffer and enter normal mode
 vim.keymap.set("t", "<C-w>n", "<C-\\><C-n>");
 
+-- go to next/previous buffer
+vim.keymap.set("n", "<leader>n", ":bn<CR>");
+vim.keymap.set("n", "<leader>b", ":bp<CR>");
+vim.keymap.set("n", "<leader>ls", ":ls<CR>");
+
+
