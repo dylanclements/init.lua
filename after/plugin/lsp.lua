@@ -8,7 +8,18 @@ lsp.ensure_installed({
     'lua_ls',
     'jdtls',
     'terraformls',
-    'pyright'
+    'pyright',
+    'bashls',
+    'dockerls',
+    'gopls',
+    'html',
+    'jsonls',
+    'kotlin_language_server',
+    'marksman',
+    'rust_analyzer',
+    'sqlls',
+    'bzl',
+    'yamlls'
 })
 
 
