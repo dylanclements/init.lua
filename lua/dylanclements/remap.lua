@@ -1,8 +1,9 @@
 -- set leader to the space bar
 vim.g.mapleader = " "
 
--- to exit the currrent buffer into netrw
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+-- nvim tree settings
+vim.keymap.set("n", "<leader>pv", ":NvimTreeToggle<CR>")
+vim.keymap.set("n", "<leader>pt", ":NvimTreeFindFile<CR>")
 
 -- In visual mode, move the highlighted text up or down with J/K
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
@@ -20,17 +21,17 @@ vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
 -- [
--- replace the visual selection with the default register 
+-- replace the visual selection with the default register
 -- contents without altering the default register
 -- ]
 vim.keymap.set("x", "<leader>p", [["_dP]])
 
 -- yank to the system clipboard
-vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
 
 -- delete to the black hole register
-vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
+vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
 -- another way to escape
 vim.keymap.set("i", "<C-c>", "<Esc>")
@@ -52,7 +53,7 @@ vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 
--- search 
+-- search
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
 -- grand executable permission to file
@@ -76,5 +77,3 @@ vim.keymap.set("t", "<C-w>n", "<C-\\><C-n>");
 vim.keymap.set("n", "<leader>n", ":bn<CR>");
 vim.keymap.set("n", "<leader>b", ":bp<CR>");
 vim.keymap.set("n", "<leader>ls", ":ls<CR>");
-
-
