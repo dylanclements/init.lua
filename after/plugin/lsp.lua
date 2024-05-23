@@ -5,7 +5,7 @@ lsp.preset("recommended")
 lsp.ensure_installed({
     'tsserver',
     'eslint',
-    'lua_ls',
+    -- 'lua_ls', causing some issues
     'jdtls',
     'terraformls',
     'pyright',
