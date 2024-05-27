@@ -24,7 +24,6 @@ return require('packer').startup(function(use)
 
     -- syntax highlighting
     use('nvim-treesitter/nvim-treesitter', { run = ":TSUpdate" })
-    use('nvim-treesitter/playground')
 
     -- harpoon, easily switch between buffers
     use('theprimeagen/harpoon')
