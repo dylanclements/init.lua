@@ -2,8 +2,7 @@
 vim.g.mapleader = " "
 
 -- nvim tree settings
-vim.keymap.set("n", "<leader>pv", ":NvimTreeToggle<CR>")
-vim.keymap.set("n", "<leader>pt", ":NvimTreeFindFile<CR>")
+vim.keymap.set("n", "<leader>pv", ":Ex<CR>")
 
 -- In visual mode, move the highlighted text up or down with J/K
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
@@ -85,4 +84,3 @@ vim.keymap.set("n", "+", [[<cmd>horizontal resize +2<cr>]]) -- make the window b
 vim.keymap.set("n", "_", [[<cmd>horizontal resize -2<cr>]]) -- make the window smaller horizontally by pressing shift and -k
 
 -- TODO: keymap to make window sizes equal length on the screen
-
