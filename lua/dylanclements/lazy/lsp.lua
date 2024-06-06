@@ -26,7 +26,6 @@ return {
         require("mason").setup()
         require("mason-lspconfig").setup({
             ensure_installed = {
-                -- TODO: more LS!!!
                 "lua_ls",
             },
             handlers = {

@@ -2,7 +2,10 @@
 vim.g.mapleader = " "
 
 -- nvim tree settings
-vim.keymap.set("n", "<leader>pv", ":Ex<CR>")
+-- disable netrw
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+vim.keymap.set("n", "<leader>pv", ":NvimTreeToggle<CR>")
 
 -- In visual mode, move the highlighted text up or down with J/K
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
