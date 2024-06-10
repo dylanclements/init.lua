@@ -59,7 +59,7 @@ vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
 -- grand executable permission to file
-vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
+vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true });
 
 -- go to packer.lua
 -- vim.keymap.set("n", "<leader>vpp", "<cmd>e ~/.config/nvim/lua/dylanclements/packer.lua<CR>");
@@ -74,6 +74,7 @@ vim.keymap.set("n", "<leader><", "5<C-W><");
 
 -- exit terminal buffer and enter normal mode
 vim.keymap.set("t", "<C-w>n", "<C-\\><C-n>");
+vim.keymap.set("n", "<leader>vt", ":vsplit | terminal<CR><C-w>L", { silent = true });
 
 -- go to next/previous buffer
 vim.keymap.set("n", "<leader>n", ":bn<CR>");
