@@ -8,8 +8,6 @@ return {
         "hrsh7th/cmp-path",
         "hrsh7th/cmp-cmdline",
         "hrsh7th/nvim-cmp",
-        "L3MON4D3/LuaSnip",
-        "saadparwaiz1/cmp_luasnip",
         "j-hui/fidget.nvim",
     },
 
@@ -33,9 +31,7 @@ return {
                 "terraformls",
                 "yamlls",
                 "sqlls",
-                "gopls",
                 "dockerls",
-                "docker_compose_language_service",
             },
             handlers = {
                 function(server_name) -- default handler (optional)
@@ -43,7 +39,6 @@ return {
                         capabilities = capabilities
                     }
                 end,
-
                 ["lua_ls"] = function()
                     local lspconfig = require("lspconfig")
                     lspconfig.lua_ls.setup {
@@ -52,7 +47,13 @@ return {
                             Lua = {
                                 runtime = { version = "Lua 5.1" },
                                 diagnostics = {
-                                    globals = { "vim", "it", "describe", "before_each", "after_each" },
+                                    globals = {
+                                        "vim",
+                                        "it",
+                                        "describe",
+                                        "before_each",
+                                        "after_each"
+                                    },
                                 }
                             }
                         }
@@ -64,11 +65,7 @@ return {
         local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
         cmp.setup({
-            snippet = {
-                expand = function(args)
-                    require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-                end,
-            },
+            snippet = {},
             mapping = cmp.mapping.preset.insert({
                 ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
                 ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
@@ -76,8 +73,7 @@ return {
                 ["<C-Space>"] = cmp.mapping.complete(),
             }),
             sources = cmp.config.sources({
-                { name = 'nvim_lsp' },
-                { name = 'luasnip' }, -- For luasnip users.
+                { name = 'nvim_lsp' }
             }, {
                 { name = 'buffer' },
             })
