@@ -88,3 +88,6 @@ vim.keymap.set("n", "+", [[<cmd>horizontal resize +2<cr>]]) -- make the window b
 vim.keymap.set("n", "_", [[<cmd>horizontal resize -2<cr>]]) -- make the window smaller horizontally by pressing shift and -k
 
 -- TODO: keymap to make window sizes equal length on the screen
+
+-- python
+vim.keymap.set("n", "<leader>py", ":!python %")
