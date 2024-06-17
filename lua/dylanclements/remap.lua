@@ -90,4 +90,4 @@ vim.keymap.set("n", "_", [[<cmd>horizontal resize -2<cr>]]) -- make the window s
 -- TODO: keymap to make window sizes equal length on the screen
 
 -- python
-vim.keymap.set("n", "<leader>py", ":!python %")
+vim.keymap.set("n", "<leader>py", ":!python %<CR>")
