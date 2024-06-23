@@ -2,8 +2,8 @@ return {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     config = function()
-        require("nvim-treesitter.configs").setup({
-            -- A list of parser names, or "all"
+        local configs = require("nvim-treesitter.configs")
+        configs.setup({
             ensure_installed = {
                 "javascript",
                 "typescript",
@@ -12,8 +12,6 @@ return {
                 "java",
                 "starlark"
             },
-
-            -- Install parsers synchronously (only applied to `ensure_installed`)
             sync_install = false,
 
             -- Automatically install missing parsers when entering buffer
