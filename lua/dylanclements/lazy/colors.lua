@@ -6,19 +6,10 @@ function ColorMyPencils(color)
 	vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 end
 
+
 return {
-
     {
-        "erikbackman/brightburn.vim",
-    },
-
-    {
-        "folke/tokyonight.nvim",
-        lazy = false,
-        opts = {},
-        config = function()
-            ColorMyPencils()
-        end
+        "erikbackman/brightburn.vim"
     },
     {
         "ellisonleao/gruvbox.nvim",
@@ -69,9 +60,9 @@ return {
                     floats = "dark", -- style for floating windows
                 },
             })
+            ColorMyPencils("tokyonight")
         end
     },
-
     {
         "rose-pine/neovim",
         name = "rose-pine",
@@ -84,6 +75,4 @@ return {
             })
         end
     },
-
-
 }
