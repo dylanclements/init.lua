@@ -26,7 +26,10 @@ vim.keymap.set("n", "N", "Nzzzv")
 -- replace the visual selection with the default register
 -- contents without altering the default register
 -- ]
-vim.keymap.set("x", "<leader>p", [["_dP]])
+-- vim.keymap.set("x", "<leader>p", [["_dP]])
+
+-- paste from the system clipboard
+vim.keymap.set({"n", "v"}, "<leader>p", [["+p]]);
 
 -- yank to the system clipboard
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
