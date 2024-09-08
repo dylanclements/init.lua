@@ -27,7 +27,6 @@ return {
         require("mason-lspconfig").setup({
             ensure_installed = {
                 "lua_ls",
-                "jdtls",
                 "pyright",
                 "bashls",
                 "terraformls",
@@ -99,7 +98,6 @@ return {
             },
         })
 
-        require('java').setup()
         require('lspconfig').jdtls.setup({})
     end
 }
