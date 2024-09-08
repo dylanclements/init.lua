@@ -10,7 +10,8 @@ return {
                 "lua",
                 "bash",
                 "java",
-                "starlark"
+                "starlark",
+                "nix",
             },
             sync_install = false,
 

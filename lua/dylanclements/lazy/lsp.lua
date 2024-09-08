@@ -34,6 +34,7 @@ return {
                 "yamlls",
                 "sqlls",
                 "dockerls",
+                "nil_ls",
             },
             handlers = {
                 function(server_name) -- default handler (optional)
