@@ -97,7 +97,5 @@ return {
                 prefix = "",
             },
         })
-
-        require('lspconfig').jdtls.setup({})
     end
 }
