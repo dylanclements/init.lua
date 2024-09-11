@@ -35,6 +35,7 @@ return {
                 "dockerls",
                 "nil_ls",
                 'jdtls',
+                "gopls",
             },
             handlers = {
                 function(server_name) -- default handler (optional)
