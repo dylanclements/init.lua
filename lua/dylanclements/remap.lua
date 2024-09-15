@@ -29,7 +29,7 @@ vim.keymap.set("n", "N", "Nzzzv")
 -- vim.keymap.set("x", "<leader>p", [["_dP]])
 
 -- paste from the system clipboard
-vim.keymap.set({"n", "v"}, "<leader>p", [["+p]]);
+vim.keymap.set({ "n", "v" }, "<leader>p", [["+p]]);
 
 -- yank to the system clipboard
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
@@ -94,3 +94,7 @@ vim.keymap.set("n", "_", [[<cmd>horizontal resize -2<cr>]]) -- make the window s
 
 -- python
 vim.keymap.set("n", "<leader>py", ":!python %<CR>")
+
+vim.keymap.set("n", "<leader>ts", function()
+    vim.fn.system("tmux switch -t terminal")
+end)
