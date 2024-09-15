@@ -113,6 +113,8 @@ return {
                 "nil_ls",
                 'jdtls',
                 "gopls",
+                "ts_ls",
+                "eslint",
             },
             handlers = {
                 function(server_name) -- default handler (optional)
