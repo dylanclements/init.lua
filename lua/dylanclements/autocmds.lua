@@ -25,6 +25,14 @@ autocmd({ "BufWritePre" }, {
 })
 
 
+-- prettier format on save
+autocmd({ "BufWritePre" }, {
+    group = DylanClementsGroup,
+    pattern = { "*.js", "*.ts", "*.cjs", "*.mjs" },
+    command = "Neoformat"
+})
+
+
 -- When the LSP (Language Server Protocol) attaches to the buffer
 -- this autocommand is triggered to set up useful keymaps
 autocmd('LspAttach', {
@@ -64,5 +72,3 @@ autocmd('LspAttach', {
         vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
     end
 })
-
-
