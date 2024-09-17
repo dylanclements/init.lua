@@ -2,11 +2,11 @@ local augroup = vim.api.nvim_create_augroup
 local DylanClementsGroup = augroup('DylanClements', {})
 
 local autocmd = vim.api.nvim_create_autocmd
-local yank_group = augroup('HighlightYank', {})
+local YankGroup = augroup('HighlightYank', {})
 
 -- Gives highlight to yanked text
 autocmd('TextYankPost', {
-    group = yank_group,
+    group = YankGroup,
     pattern = '*',
     callback = function()
         vim.highlight.on_yank({
@@ -71,4 +71,36 @@ autocmd('LspAttach', {
         -- Jump to the previous diagnostic message in the buffer
         vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
     end
+})
+
+local CustomIndentation = augroup('CustomIndentation', {})
+
+autocmd("FileType", {
+    pattern = "*",
+    group = CustomIndentation,
+    callback = function()
+        vim.opt_local.expandtab = true
+        vim.opt_local.shiftwidth = 4
+        vim.opt_local.tabstop = 4
+        vim.opt_local.softtabstop = 4
+    end,
+})
+
+autocmd("FileType", {
+    pattern = {
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact",
+        "html",
+        "yaml",
+        "css",
+    },
+    group = CustomIndentation,
+    callback = function()
+        vim.opt_local.expandtab = true
+        vim.opt_local.shiftwidth = 2
+        vim.opt_local.tabstop = 2
+        vim.opt_local.softtabstop = 2
+    end,
 })
