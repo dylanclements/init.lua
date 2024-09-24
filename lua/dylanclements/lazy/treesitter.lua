@@ -12,6 +12,7 @@ return {
                 "java",
                 "starlark",
                 "nix",
+                "terraform",
             },
             sync_install = false,
 
