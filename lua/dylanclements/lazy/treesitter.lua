@@ -10,6 +10,7 @@ return {
                 "lua",
                 "bash",
                 "java",
+                "kotlin",
                 "starlark",
                 "nix",
                 "terraform",
