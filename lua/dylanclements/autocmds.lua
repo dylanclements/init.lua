@@ -115,7 +115,7 @@ autocmd("FileType", {
         local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
         -- vim.lsp.set_log_level('DEBUG')
 
-        local home_dir = "/User/dylanc/"
+        local home_dir = "/Users/dylanc/"
         local local_share_dir = home_dir .. ".local/share/"
         local workspace_dir = home_dir .. "work/" .. project_name
 
