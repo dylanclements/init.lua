@@ -116,8 +116,8 @@ autocmd("FileType", {
         -- vim.lsp.set_log_level('DEBUG')
 
         local home_dir = "/User/dylanc/"
-        local workspace_dir = home_dir .. "work/" .. project_name
         local local_share_dir = home_dir .. ".local/share/"
+        local workspace_dir = home_dir .. "work/" .. project_name
 
         -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
         require("jdtls").start_or_attach({
@@ -163,7 +163,7 @@ autocmd("FileType", {
 
             -- This is the default if not provided, you can remove it. Or adjust as needed.
             -- One dedicated LSP server & client will be started per unique root_dir
-            root_dir = require("jdtls.setup").find_root({ ".git", "WORKSPACE" }),
+            root_dir = vim.fs.root(0, { ".git", "WORKSPACE" }),
 
             -- Here you can configure eclipse.jdt.ls specific settings
             -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
@@ -174,6 +174,10 @@ autocmd("FileType", {
 
             -- add callbacks for events
             handlers = {
+                -- ["language/status"] = <function 1>,
+                -- ["textDocument/codeAction"] = <function 2>,
+                -- ["textDocument/rename"] = <function 3>,
+                -- ["workspace/applyEdit"] = <function 4>
             },
         })
     end,
