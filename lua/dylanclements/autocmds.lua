@@ -75,6 +75,7 @@ autocmd('LspAttach', {
 
 local CustomIndentation = augroup('CustomIndentation', {})
 
+-- by default set file indents to 4 spaces
 autocmd("FileType", {
     pattern = "*",
     group = CustomIndentation,
@@ -86,6 +87,7 @@ autocmd("FileType", {
     end,
 })
 
+-- set these languages to 2 spaces
 autocmd("FileType", {
     pattern = {
         "java",
@@ -115,3 +117,4 @@ autocmd("FileType", {
         require('jdtls.jdtls_setup').setup()
     end,
 })
+

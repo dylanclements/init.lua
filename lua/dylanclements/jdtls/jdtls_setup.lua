@@ -21,7 +21,9 @@ function M.setup()
     local path_to_config = path_to_jdtls .. "/config_mac_arm"
 
     -- 💀
-    local path_to_jar = path_to_jdtls .. "/plugins/org.eclipse.equinox.launcher.cocoa.macosx.aarch64_1.2.1100.v20240722-2106.jar"
+    local path_to_jar = path_to_jdtls ..
+        "/plugins/org.eclipse.equinox.launcher_1.6.900.v20240613-2009.jar"
+
     -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                                       ^^^^^^^^^^^^^^
 
     local capabilities = {
@@ -54,6 +56,7 @@ function M.setup()
         "-Declipse.product=org.eclipse.jdt.ls.core.product",
         "-Dlog.protocol=true",
         "-Dlog.level=ALL",
+        "-Xms32g",
         "-Xmx64g",
         -- "-javaagent:" .. lombok_path,
         "--add-modules=ALL-SYSTEM",
