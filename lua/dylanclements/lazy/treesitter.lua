@@ -13,6 +13,7 @@ return {
                 "starlark",
                 "nix",
                 "terraform",
+                "python"
             },
             sync_install = false,
 
