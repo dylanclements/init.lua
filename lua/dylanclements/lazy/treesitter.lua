@@ -14,7 +14,8 @@ return {
                 "starlark",
                 "nix",
                 "terraform",
-                "python"
+                "python",
+                "elixir",
             },
             sync_install = false,
 
