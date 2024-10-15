@@ -40,6 +40,8 @@ return {
                 "ts_ls",
                 "eslint",
                 "elixirls",
+                "html",
+                "elp",
             },
             handlers = {
                 function(server_name) -- default handler (optional)

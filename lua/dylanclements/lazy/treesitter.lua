@@ -16,6 +16,10 @@ return {
                 "terraform",
                 "python",
                 "elixir",
+                "erlang",
+                "heex",
+                "html",
+                "css",
             },
             sync_install = false,
 
