@@ -98,6 +98,8 @@ autocmd("FileType", {
         "html",
         "yaml",
         "css",
+        "elixir",
+        "eelixir",
     },
     group = CustomIndentation,
     callback = function()
