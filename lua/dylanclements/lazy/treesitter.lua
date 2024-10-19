@@ -9,7 +9,6 @@ local ensure_installed = {
 
     -- misc
     "yaml",
-    "markdown",
 
     -- docker
     "dockerfile",
