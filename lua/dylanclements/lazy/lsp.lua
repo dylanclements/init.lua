@@ -1,3 +1,53 @@
+local ensure_installed = {
+    -- lua
+    "lua_ls",
+
+    -- python
+    "pyright",
+
+    -- bash
+    "bashls",
+
+    -- yaml
+    "yamlls",
+
+    -- sql
+    "sqlls",
+
+    -- terraform
+    "terraformls",
+
+    -- docker
+    "dockerls",
+
+    -- go
+    "gopls",
+
+    -- nix
+    "nil_ls",
+
+    -- elixir
+    "elixirls",
+    "elp",
+
+    -- jvm
+    -- "jdtls" its probably better to install JDTLS manually
+    "kotlin_language_server",
+
+    -- webdev
+    "ts_ls",
+    "eslint",
+    "html",
+    "tailwindcss",
+    "cssls",
+    "jsonls",
+    "prettier",
+
+    -- markdown
+    "marksman",
+}
+
+
 return {
     "neovim/nvim-lspconfig",
     dependencies = {
@@ -25,24 +75,7 @@ return {
         require("fidget").setup({})
         require("mason").setup()
         require("mason-lspconfig").setup({
-            ensure_installed = {
-                "lua_ls",
-                "pyright",
-                "bashls",
-                "terraformls",
-                "yamlls",
-                "sqlls",
-                "dockerls",
-                "nil_ls",
-                "jdtls",
-                "kotlin_language_server",
-                "gopls",
-                "ts_ls",
-                "eslint",
-                "elixirls",
-                "html",
-                "elp",
-            },
+            ensure_installed = ensure_installed,
             handlers = {
                 function(server_name) -- default handler (optional)
                     require("lspconfig")[server_name].setup {

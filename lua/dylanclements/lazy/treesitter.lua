@@ -1,26 +1,55 @@
+local ensure_installed = {
+    -- web dev
+    "javascript",
+    "typescript",
+    "tsx",
+    "html",
+    "css",
+    "json",
+
+    -- misc
+    "yaml",
+    "markdown",
+
+    -- docker
+    "dockerfile",
+    "regex",
+
+    -- lua
+    "lua",
+
+    -- bash
+    "bash",
+
+    -- jvm
+    "java",
+    "kotlin",
+
+    -- bazel
+    "starlark",
+
+    -- nix
+    "nix",
+
+    -- terraform
+    "terraform",
+
+    -- python
+    "python",
+
+    -- elixir
+    "elixir",
+    "erlang",
+    "heex",
+}
+
 return {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     config = function()
         local configs = require("nvim-treesitter.configs")
         configs.setup({
-            ensure_installed = {
-                "javascript",
-                "typescript",
-                "lua",
-                "bash",
-                "java",
-                "kotlin",
-                "starlark",
-                "nix",
-                "terraform",
-                "python",
-                "elixir",
-                "erlang",
-                "heex",
-                "html",
-                "css",
-            },
+            ensure_installed = ensure_installed,
             sync_install = false,
 
             -- Automatically install missing parsers when entering buffer
