@@ -41,7 +41,6 @@ local ensure_installed = {
     "tailwindcss",
     "cssls",
     "jsonls",
-    "prettier",
 
     -- markdown
     "marksman",

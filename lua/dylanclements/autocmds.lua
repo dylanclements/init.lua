@@ -25,11 +25,18 @@ autocmd({ "BufWritePre" }, {
 })
 
 
--- prettier format on save
-autocmd({ "BufWritePre" }, {
-    group = DylanClementsGroup,
-    pattern = { "*.js", "*.ts", "*.cjs", "*.mjs" },
-    command = "Neoformat"
+-- prettier on save for js files
+autocmd("BufWritePre", {
+  group = DylanClementsGroup,
+  pattern = {
+    "*.js",
+    "*.jsx",
+    "*.ts",
+    "*.tsx",
+    "*.cjs",   -- CommonJS modules
+    "*.mjs"    -- ES modules
+  },
+  command = "Prettier",
 })
 
 
