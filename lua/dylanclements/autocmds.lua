@@ -107,6 +107,7 @@ autocmd("FileType", {
         "css",
         "elixir",
         "eelixir",
+        "prisma",
     },
     group = CustomIndentation,
     callback = function()

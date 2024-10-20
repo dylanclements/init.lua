@@ -6,6 +6,7 @@ local ensure_installed = {
     "html",
     "css",
     "json",
+    "prisma",
 
     -- misc
     "yaml",
