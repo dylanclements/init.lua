@@ -108,7 +108,6 @@ autocmd("FileType", {
         "elixir",
         "eelixir",
         "prisma",
-        "json",
     },
     group = CustomIndentation,
     callback = function()
