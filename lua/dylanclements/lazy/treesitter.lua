@@ -41,6 +41,9 @@ local ensure_installed = {
     "elixir",
     "erlang",
     "heex",
+
+    -- rust
+    "rust",
 }
 
 return {

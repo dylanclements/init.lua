@@ -45,6 +45,9 @@ local ensure_installed = {
 
     -- markdown
     "marksman",
+
+    -- rust
+    "rust_analyzer",
 }
 
 
