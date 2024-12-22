@@ -44,6 +44,9 @@ local ensure_installed = {
 
     -- rust
     "rust",
+
+    --
+    "go",
 }
 
 return {
