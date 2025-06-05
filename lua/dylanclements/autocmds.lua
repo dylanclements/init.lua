@@ -25,19 +25,7 @@ autocmd({ "BufWritePre" }, {
 })
 
 
--- prettier on save for js files
-autocmd("BufWritePre", {
-  group = DylanClementsGroup,
-  pattern = {
-    "*.js",
-    "*.jsx",
-    "*.ts",
-    "*.tsx",
-    "*.cjs",   -- CommonJS modules
-    "*.mjs"    -- ES modules
-  },
-  command = "Prettier",
-})
+
 
 
 -- When the LSP (Language Server Protocol) attaches to the buffer
