@@ -108,6 +108,8 @@ autocmd("FileType", {
         "elixir",
         "eelixir",
         "prisma",
+        "json",
+        "jsonc",
     },
     group = CustomIndentation,
     callback = function()
@@ -117,6 +119,56 @@ autocmd("FileType", {
         vim.opt_local.softtabstop = 2
     end,
 })
+
+-- Handle JSON files with comments (JSONC)
+local JsonGroup = augroup('JsonWithComments', {})
+
+-- Detect common JSONC files and set filetype to jsonc
+autocmd({"BufRead", "BufNewFile"}, {
+    group = JsonGroup,
+    pattern = {
+        "tsconfig*.json",
+        ".vscode/*.json",
+        ".eslintrc.json",
+        ".prettierrc.json",
+        "*.jsonc",
+    },
+    callback = function()
+        vim.bo.filetype = "jsonc"
+        vim.bo.commentstring = "// %s"
+    end,
+})
+
+-- Auto-enable JSONC for all JSON files in 'dynamic-config' repository
+autocmd({"BufRead", "BufNewFile"}, {
+    group = JsonGroup,
+    pattern = "*.json",
+    callback = function()
+        -- Get the current working directory and check if we're in dynamic-config repo
+        local cwd = vim.fn.getcwd()
+        local repo_name = vim.fn.fnamemodify(cwd, ":t")
+
+        -- If we're in dynamic-config repo, treat all JSON files as JSONC
+        if repo_name == "dynamic-config" then
+            vim.bo.filetype = "jsonc"
+            vim.bo.commentstring = "// %s"
+        end
+    end,
+})
+
+-- For regular JSON files, you can toggle comment support with a keymap
+-- Add this keymap to toggle between strict JSON and JSON with comments
+vim.keymap.set("n", "<leader>jc", function()
+    if vim.bo.filetype == "json" then
+        vim.bo.filetype = "jsonc"
+        vim.bo.commentstring = "// %s"
+        print("Switched to JSONC (comments allowed)")
+    elseif vim.bo.filetype == "jsonc" then
+        vim.bo.filetype = "json"
+        vim.bo.commentstring = ""
+        print("Switched to strict JSON")
+    end
+end, { desc = "Toggle JSON/JSONC mode" })
 
 
 
