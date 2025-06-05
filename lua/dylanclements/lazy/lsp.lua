@@ -1,45 +1,35 @@
 local ensure_installed = {
     -- lua
-    "lua_ls",
+    "lua-language-server",
 
     -- python
-    "pyright",
+    "python-lsp-server",
 
     -- bash
-    "bashls",
+    "bash-language-server",
 
     -- yaml
-    "yamlls",
+    "yaml-language-server",
 
     -- sql
     "sqlls",
 
     -- terraform
-    "terraformls",
-
-    -- docker
-    "dockerls",
+    "terraform-ls",
 
     -- go
     "gopls",
 
-
-
-    -- elixir
-    "elixirls",
-    "elp",
-
     -- jvm
-    "kotlin_language_server",
+    "kotlin-language-server",
 
     -- webdev
-    "ts_ls",
-    "eslint",
-    "html",
-    "tailwindcss",
-    "cssls",
-    "jsonls",
-    "prismals",
+    "typescript-language-server",
+    "eslint-lsp",
+    "html-lsp",
+    "tailwindcss-language-server",
+    "css-lsp",
+    "json-lsp",
 
     -- markdown
     "marksman",
