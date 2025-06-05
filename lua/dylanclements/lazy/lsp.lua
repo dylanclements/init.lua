@@ -31,7 +31,6 @@ local ensure_installed = {
     "elp",
 
     -- jvm
-    -- "jdtls" its probably better to install JDTLS manually
     "kotlin_language_server",
 
     -- webdev
@@ -64,7 +63,7 @@ return {
         "L3MON4D3/LuaSnip",
         "saadparwaiz1/cmp_luasnip",
         "j-hui/fidget.nvim",
-        "mfussenegger/nvim-jdtls",
+
     },
     config = function()
         local cmp = require('cmp')

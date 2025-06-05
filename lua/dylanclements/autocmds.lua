@@ -119,12 +119,5 @@ autocmd("FileType", {
 })
 
 
--- Spin up JDTLS if we are in a java file
-autocmd("FileType", {
-    group = DylanClementsGroup,
-    pattern = "java",
-    callback = function()
-        require('jdtls.jdtls_setup').setup()
-    end,
-})
+
 
