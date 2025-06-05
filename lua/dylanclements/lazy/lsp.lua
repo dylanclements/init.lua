@@ -23,8 +23,7 @@ local ensure_installed = {
     -- go
     "gopls",
 
-    -- nix
-    "nil_ls",
+
 
     -- elixir
     "elixirls",
