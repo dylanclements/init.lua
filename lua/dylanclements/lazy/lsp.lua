@@ -24,7 +24,7 @@ local ensure_installed = {
     "elixirls",
 
     -- webdev
-    "ts_ls",
+    "typescript-language-server",
     "eslint",
     "html",
     "tailwindcss",
@@ -42,8 +42,8 @@ local ensure_installed = {
 return {
     "neovim/nvim-lspconfig",
     dependencies = {
-        "williamboman/mason.nvim",
-        "williamboman/mason-lspconfig.nvim",
+        { "williamboman/mason.nvim", version = "v1.10.0" },
+        { "williamboman/mason-lspconfig.nvim", version = "v1.29.0" },
         "hrsh7th/cmp-nvim-lsp",
         "hrsh7th/cmp-buffer",
         "hrsh7th/cmp-path",
