@@ -94,37 +94,6 @@ return {
                         }
                     }
                 end,
-                ["jsonls"] = function()
-                    local lspconfig = require("lspconfig")
-                    lspconfig.jsonls.setup {
-                        capabilities = capabilities,
-                        settings = {
-                            json = {
-                                -- Allow comments in JSON files
-                                allowComments = true,
-                                -- Allow trailing commas
-                                allowTrailingCommas = true,
-                                -- Validate JSON files
-                                validate = { enable = true },
-                                -- Schema validation
-                                schemas = {
-                                    {
-                                        fileMatch = { "package.json" },
-                                        url = "https://json.schemastore.org/package.json"
-                                    },
-                                    {
-                                        fileMatch = { "tsconfig*.json" },
-                                        url = "https://json.schemastore.org/tsconfig.json"
-                                    },
-                                    {
-                                        fileMatch = { ".vscode/settings.json" },
-                                        url = "https://json.schemastore.org/vscode-settings.json"
-                                    },
-                                }
-                            }
-                        }
-                    }
-                end,
             }
         })
 
