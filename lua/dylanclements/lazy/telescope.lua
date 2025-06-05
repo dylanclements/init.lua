@@ -3,13 +3,35 @@ return {
     tag = "0.1.6",
     dependencies = { 'nvim-lua/plenary.nvim' },
     config = function()
+        -- Store current path display mode
+        local current_path_display = { "truncate" }
+
         require('telescope').setup{
 	        defaults = {
-		        path_display={"smart"}
+		        path_display = current_path_display
 	        }
         }
 
         local builtin = require('telescope.builtin')
+
+        -- Toggle path display mode
+        vim.keymap.set('n', '<leader>tp', function()
+            local telescope_config = require('telescope.config')
+
+            if current_path_display[1] == "truncate" then
+                current_path_display[1] = "smart"
+                print("Telescope: Smart path display")
+            elseif current_path_display[1] == "smart" then
+                current_path_display[1] = "tail"
+                print("Telescope: Filename only")
+            else
+                current_path_display[1] = "truncate"
+                print("Telescope: Full paths from repo root")
+            end
+
+            -- Update the telescope configuration
+            telescope_config.values.path_display = current_path_display
+        end, { desc = "Toggle Telescope path display mode" })
 
         -- find files
         vim.keymap.set('n', '<leader>pf', builtin.find_files, {})
