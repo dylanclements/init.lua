@@ -24,6 +24,25 @@ autocmd({ "BufWritePre" }, {
     command = [[%s/\s\+$//e]],
 })
 
+-- LSP format on save
+autocmd("BufWritePre", {
+    group = DylanClementsGroup,
+    pattern = "*",
+    callback = function()
+        -- Check if any LSP client supports formatting for this buffer
+        local clients = vim.lsp.get_active_clients({ bufnr = 0 })
+        for _, client in ipairs(clients) do
+            if client.server_capabilities.documentFormattingProvider then
+                vim.lsp.buf.format({
+                    async = false,
+                    timeout_ms = 2000,
+                })
+                return
+            end
+        end
+    end,
+})
+
 
 
 
