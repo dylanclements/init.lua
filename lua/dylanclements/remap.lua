@@ -7,6 +7,46 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.keymap.set("n", "<leader>pv", ":NvimTreeToggle<CR>")
 
+-- resize nvim-tree to fit content
+vim.keymap.set("n", "<leader>tr", function()
+    -- Check if nvim-tree is open
+    local tree_exists = pcall(require, "nvim-tree")
+    if tree_exists then
+        local tree_api = require("nvim-tree.api")
+        local tree_view = require("nvim-tree.view")
+        
+        if tree_view.is_visible() then
+            -- Get the tree window
+            local tree_win = tree_view.get_winnr()
+            if tree_win then
+                -- Find the longest line in the tree buffer
+                local tree_buf = vim.fn.bufnr("NvimTree_" .. vim.fn.tabpagenr())
+                if tree_buf ~= -1 then
+                    local lines = vim.api.nvim_buf_get_lines(tree_buf, 0, -1, false)
+                    local max_width = 0
+                    
+                    for _, line in ipairs(lines) do
+                        local line_width = vim.fn.strdisplaywidth(line)
+                        if line_width > max_width then
+                            max_width = line_width
+                        end
+                    end
+                    
+                    -- Add some padding and set the width
+                    local new_width = math.min(max_width + 5, vim.o.columns - 10)
+                    vim.api.nvim_win_set_width(tree_win, new_width)
+                    
+                    vim.notify("Resized nvim-tree to fit content", vim.log.levels.INFO)
+                end
+            end
+        else
+            vim.notify("NvimTree is not open", vim.log.levels.INFO)
+        end
+    else
+        vim.notify("NvimTree not available", vim.log.levels.INFO)
+    end
+end, { desc = "Resize nvim-tree to fit content" })
+
 -- In visual mode, move the highlighted text up or down with J/K
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")

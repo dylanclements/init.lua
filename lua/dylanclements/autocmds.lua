@@ -131,7 +131,7 @@ autocmd("FileType", {
 local JsonGroup = augroup('JsonWithComments', {})
 
 -- Detect common JSONC files and set filetype to jsonc
-autocmd({"BufRead", "BufNewFile"}, {
+autocmd({ "BufRead", "BufNewFile" }, {
     group = JsonGroup,
     pattern = {
         "tsconfig*.json",
@@ -147,7 +147,7 @@ autocmd({"BufRead", "BufNewFile"}, {
 })
 
 -- Auto-enable JSONC for all JSON files in 'dynamic-config' repository
-autocmd({"BufRead", "BufNewFile"}, {
+autocmd({ "BufRead", "BufNewFile" }, {
     group = JsonGroup,
     pattern = "*.json",
     callback = function()
@@ -176,7 +176,3 @@ vim.keymap.set("n", "<leader>jc", function()
         print("Switched to strict JSON")
     end
 end, { desc = "Toggle JSON/JSONC mode" })
-
-
-
-
