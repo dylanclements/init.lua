@@ -90,7 +90,33 @@ vim.keymap.set("n", "-", [[<cmd>vertical resize +5<cr>]])   -- make the window s
 vim.keymap.set("n", "+", [[<cmd>horizontal resize +2<cr>]]) -- make the window bigger horizontally by pressing shift and =
 vim.keymap.set("n", "_", [[<cmd>horizontal resize -2<cr>]]) -- make the window smaller horizontally by pressing shift and -k
 
--- TODO: keymap to make window sizes equal length on the screen
+-- make all window sizes equal
+vim.keymap.set("n", "<leader>=", function()
+    -- Get the number of windows
+    local num_windows = vim.fn.winnr('$')
+    
+    if num_windows > 1 then
+        -- Calculate equal width
+        local total_width = vim.o.columns
+        local equal_width = math.floor(total_width / num_windows)
+        
+        -- Store current window
+        local current_win = vim.api.nvim_get_current_win()
+        
+        -- Resize each window
+        for i = 1, num_windows do
+            local win_id = vim.fn.win_getid(i)
+            vim.api.nvim_win_set_width(win_id, equal_width)
+        end
+        
+        -- Return focus to original window
+        vim.api.nvim_set_current_win(current_win)
+        
+        vim.notify(string.format("Resized %d windows to equal width", num_windows), vim.log.levels.INFO)
+    else
+        vim.notify("Only one window open", vim.log.levels.INFO)
+    end
+end, { desc = "Make all windows equal width" })
 
 -- python
 vim.keymap.set("n", "<leader>py", ":!python %<CR>")
