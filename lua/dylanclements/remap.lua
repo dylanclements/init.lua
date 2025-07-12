@@ -98,3 +98,21 @@ vim.keymap.set("n", "<leader>py", ":!python %<CR>")
 vim.keymap.set("n", "<leader>ts", function()
     vim.fn.system("tmux switch -t terminal")
 end)
+
+-- LSP toggle for current buffer
+vim.keymap.set("n", "<leader>lt", function()
+    local bufnr = vim.api.nvim_get_current_buf()
+    local clients = vim.lsp.get_active_clients({ bufnr = bufnr })
+    
+    if #clients > 0 then
+        -- LSP is active, detach all clients from this buffer
+        for _, client in pairs(clients) do
+            vim.lsp.buf_detach_client(bufnr, client.id)
+        end
+        vim.notify("LSP disabled for current buffer", vim.log.levels.INFO)
+    else
+        -- LSP is inactive, reattach by triggering LSP setup
+        vim.cmd("LspStart")
+        vim.notify("LSP enabled for current buffer", vim.log.levels.INFO)
+    end
+end, { desc = "Toggle LSP for current buffer" })
