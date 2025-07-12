@@ -1,7 +1,10 @@
 return {
     "tpope/vim-fugitive",
     config = function()
-        vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
+        -- Open Git status in a vertical split on the right
+        vim.keymap.set("n", "<leader>gs", function()
+            vim.cmd("vertical Git")
+        end)
 
         local DylanClements_Fugitive = vim.api.nvim_create_augroup("DylanClements_Fugitive", {})
 
