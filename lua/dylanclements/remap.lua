@@ -5,7 +5,7 @@ vim.g.mapleader = " "
 -- disable netrw
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
-vim.keymap.set("n", "<leader>pv", ":NvimTreeToggle<CR>")
+vim.keymap.set("n", "<leader>pv", ":NvimTreeToggle<CR>", { desc = "Toggle NvimTree" })
 
 -- resize nvim-tree to fit content
 vim.keymap.set("n", "<leader>tr", function()
@@ -48,19 +48,19 @@ vim.keymap.set("n", "<leader>tr", function()
 end, { desc = "Resize nvim-tree to fit content" })
 
 -- In visual mode, move the highlighted text up or down with J/K
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move visual selection down" })
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move visual selection up" })
 
 -- ctrl-d / ctrl-u in normal mode to move the cursor up and down the file
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Move down half page and center" })
+vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Move up half page and center" })
 
 -- join next line with current but move the cursor back to origin
-vim.keymap.set("n", "J", "mzJ`z")
+vim.keymap.set("n", "J", "mzJ`z", { desc = "Join next line and keep cursor position" })
 
 -- centre the cursor after searching for text, open and closed folds
-vim.keymap.set("n", "n", "nzzzv")
-vim.keymap.set("n", "N", "Nzzzv")
+vim.keymap.set("n", "n", "nzzzv", { desc = "Next search result and center" })
+vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous search result and center" })
 
 -- [
 -- replace the visual selection with the default register
@@ -69,64 +69,63 @@ vim.keymap.set("n", "N", "Nzzzv")
 -- vim.keymap.set("x", "<leader>p", [["_dP]])
 
 -- paste from the system clipboard
-vim.keymap.set({ "n", "v" }, "<leader>p", [["+p]]);
+vim.keymap.set({ "n", "v" }, "<leader>p", [["+p]], { desc = "Paste from system clipboard" });
 
 -- yank to the system clipboard
-vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
-vim.keymap.set("n", "<leader>Y", [["+Y]])
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Yank to system clipboard" })
+vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = "Yank line to system clipboard" })
 
 -- delete to the black hole register
-vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
+vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]], { desc = "Delete to black hole register" })
 
 -- another way to escape
-vim.keymap.set("i", "<C-c>", "<Esc>")
+vim.keymap.set("i", "<C-c>", "<Esc>", { desc = "Escape insert mode" })
 
 -- no-op Q because it may conflict with exiting or something idk
-vim.keymap.set("n", "Q", "<nop>")
+vim.keymap.set("n", "Q", "<nop>", { desc = "Disable Q key" })
 
 -- some tmux thing, not sure if this is needed
 -- vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux new tmux-sessionizer<CR>")
 
--- formatting
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
+
 
 -- move to next/prev item in vim quickfix list
-vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
-vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
+vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz", { desc = "Next quickfix item" })
+vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz", { desc = "Previous quickfix item" })
 
 -- move to next/prev item in the location list
-vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
-vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
+vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz", { desc = "Next location list item" })
+vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz", { desc = "Previous location list item" })
 
 -- search
-vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Search and replace word under cursor" })
 
 -- grant executable permission to file
-vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true });
+vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true, desc = "Make file executable" });
 
 -- go to packer.lua
 -- vim.keymap.set("n", "<leader>vpp", "<cmd>e ~/.config/nvim/lua/dylanclements/packer.lua<CR>");
 
 -- cosmetic animations
-vim.keymap.set("n", "<leader>mr", "<cmd>CellularAutomaton make_it_rain<CR>");
-vim.keymap.set("n", "<leader>gl", "<cmd>CellularAutomaton game_of_life<CR>");
+vim.keymap.set("n", "<leader>mr", "<cmd>CellularAutomaton make_it_rain<CR>", { desc = "Make it rain animation" });
+vim.keymap.set("n", "<leader>gl", "<cmd>CellularAutomaton game_of_life<CR>", { desc = "Game of life animation" });
 
 -- increase the width of windows
-vim.keymap.set("n", "<leader>>", "5<C-W>>");
-vim.keymap.set("n", "<leader><", "5<C-W><");
+vim.keymap.set("n", "<leader>>", "5<C-W>>", { desc = "Increase window width" });
+vim.keymap.set("n", "<leader><", "5<C-W><", { desc = "Decrease window width" });
 
 -- exit terminal buffer and enter normal mode
-vim.keymap.set("t", "<C-w>n", "<C-\\><C-n>");
-vim.keymap.set("n", "<leader>vt", ":vsplit | terminal<CR><C-w>L", { silent = true });
+vim.keymap.set("t", "<C-w>n", "<C-\\><C-n>", { desc = "Exit terminal to normal mode" });
+vim.keymap.set("n", "<leader>vt", ":vsplit | terminal<CR><C-w>L", { silent = true, desc = "Open terminal in vertical split" });
 
 -- list what's changed
-vim.keymap.set("n", "<leader>ls", ":ls<CR>");
+vim.keymap.set("n", "<leader>ls", ":ls<CR>", { desc = "List buffers" });
 
 -- resize windows
-vim.keymap.set("n", "=", [[<cmd>vertical resize -5<cr>]])   -- make the window biger vertically
-vim.keymap.set("n", "-", [[<cmd>vertical resize +5<cr>]])   -- make the window smaller vertically
-vim.keymap.set("n", "+", [[<cmd>horizontal resize +2<cr>]]) -- make the window bigger horizontally by pressing shift and =
-vim.keymap.set("n", "_", [[<cmd>horizontal resize -2<cr>]]) -- make the window smaller horizontally by pressing shift and -k
+vim.keymap.set("n", "=", [[<cmd>vertical resize -5<cr>]], { desc = "Increase window width" })   -- make the window biger vertically
+vim.keymap.set("n", "-", [[<cmd>vertical resize +5<cr>]], { desc = "Decrease window width" })   -- make the window smaller vertically
+vim.keymap.set("n", "+", [[<cmd>horizontal resize +2<cr>]], { desc = "Increase window height" }) -- make the window bigger horizontally by pressing shift and =
+vim.keymap.set("n", "_", [[<cmd>horizontal resize -2<cr>]], { desc = "Decrease window height" }) -- make the window smaller horizontally by pressing shift and -k
 
 -- make all window sizes equal
 vim.keymap.set("n", "<leader>=", function()
@@ -157,33 +156,9 @@ vim.keymap.set("n", "<leader>=", function()
 end, { desc = "Make all windows equal width" })
 
 -- python
-vim.keymap.set("n", "<leader>py", ":!python %<CR>")
+vim.keymap.set("n", "<leader>py", ":!python %<CR>", { desc = "Run Python file" })
 
--- Bufferline tab navigation
-vim.keymap.set("n", "<leader>1", "<cmd>BufferLineGoToBuffer 1<CR>", { desc = "Go to tab 1" })
-vim.keymap.set("n", "<leader>2", "<cmd>BufferLineGoToBuffer 2<CR>", { desc = "Go to tab 2" })
-vim.keymap.set("n", "<leader>3", "<cmd>BufferLineGoToBuffer 3<CR>", { desc = "Go to tab 3" })
-vim.keymap.set("n", "<leader>4", "<cmd>BufferLineGoToBuffer 4<CR>", { desc = "Go to tab 4" })
-vim.keymap.set("n", "<leader>5", "<cmd>BufferLineGoToBuffer 5<CR>", { desc = "Go to tab 5" })
-vim.keymap.set("n", "<leader>6", "<cmd>BufferLineGoToBuffer 6<CR>", { desc = "Go to tab 6" })
-vim.keymap.set("n", "<leader>7", "<cmd>BufferLineGoToBuffer 7<CR>", { desc = "Go to tab 7" })
-vim.keymap.set("n", "<leader>8", "<cmd>BufferLineGoToBuffer 8<CR>", { desc = "Go to tab 8" })
-vim.keymap.set("n", "<leader>9", "<cmd>BufferLineGoToBuffer 9<CR>", { desc = "Go to tab 9" })
 
--- Tab navigation
-vim.keymap.set("n", "<leader>gt", "<cmd>BufferLineCycleNext<CR>", { desc = "Next tab" })
-vim.keymap.set("n", "<leader>gT", "<cmd>BufferLineCyclePrev<CR>", { desc = "Previous tab" })
-
--- Tab management
-vim.keymap.set("n", "<leader>tc", "<cmd>BufferLineClose<CR>", { desc = "Close current tab" })
-vim.keymap.set("n", "<leader>to", "<cmd>BufferLineCloseOthers<CR>", { desc = "Close other tabs" })
-vim.keymap.set("n", "<leader>tr", "<cmd>BufferLineCloseRight<CR>", { desc = "Close tabs to the right" })
-vim.keymap.set("n", "<leader>tl", "<cmd>BufferLineCloseLeft<CR>", { desc = "Close tabs to the left" })
-vim.keymap.set("n", "<leader>tn", "<cmd>enew<CR>", { desc = "New tab" })
-vim.keymap.set("n", "<leader>tp", "<cmd>BufferLineTogglePin<CR>", { desc = "Pin/unpin tab" })
-vim.keymap.set("n", "<leader>tm", "<cmd>BufferLineMoveNext<CR>", { desc = "Move tab right" })
-vim.keymap.set("n", "<leader>tM", "<cmd>BufferLineMovePrev<CR>", { desc = "Move tab left" })
-vim.keymap.set("n", "<leader>ts", "<cmd>BufferLineSortByExtension<CR>", { desc = "Sort tabs by extension" })
 
 -- Reload Neovim configuration with feedback
 vim.keymap.set("n", "<leader>rr", function()
@@ -201,20 +176,4 @@ vim.keymap.set("n", "<leader>rr", function()
     end
 end, { desc = "Reload Neovim config" })
 
--- LSP toggle for current buffer
-vim.keymap.set("n", "<leader>lt", function()
-    local bufnr = vim.api.nvim_get_current_buf()
-    local clients = vim.lsp.get_active_clients({ bufnr = bufnr })
 
-    if #clients > 0 then
-        -- LSP is active, detach all clients from this buffer
-        for _, client in pairs(clients) do
-            vim.lsp.buf_detach_client(bufnr, client.id)
-        end
-        vim.notify("LSP disabled for current buffer", vim.log.levels.INFO)
-    else
-        -- LSP is inactive, reattach by triggering LSP setup
-        vim.cmd("LspStart")
-        vim.notify("LSP enabled for current buffer", vim.log.levels.INFO)
-    end
-end, { desc = "Toggle LSP for current buffer" })

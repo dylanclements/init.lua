@@ -113,5 +113,32 @@ return {
                 },
             },
         })
+
+        -- Bufferline keymaps
+        -- Tab navigation
+        vim.keymap.set("n", "<leader>1", "<cmd>BufferLineGoToBuffer 1<CR>", { desc = "Go to tab 1" })
+        vim.keymap.set("n", "<leader>2", "<cmd>BufferLineGoToBuffer 2<CR>", { desc = "Go to tab 2" })
+        vim.keymap.set("n", "<leader>3", "<cmd>BufferLineGoToBuffer 3<CR>", { desc = "Go to tab 3" })
+        vim.keymap.set("n", "<leader>4", "<cmd>BufferLineGoToBuffer 4<CR>", { desc = "Go to tab 4" })
+        vim.keymap.set("n", "<leader>5", "<cmd>BufferLineGoToBuffer 5<CR>", { desc = "Go to tab 5" })
+        vim.keymap.set("n", "<leader>6", "<cmd>BufferLineGoToBuffer 6<CR>", { desc = "Go to tab 6" })
+        vim.keymap.set("n", "<leader>7", "<cmd>BufferLineGoToBuffer 7<CR>", { desc = "Go to tab 7" })
+        vim.keymap.set("n", "<leader>8", "<cmd>BufferLineGoToBuffer 8<CR>", { desc = "Go to tab 8" })
+        vim.keymap.set("n", "<leader>9", "<cmd>BufferLineGoToBuffer 9<CR>", { desc = "Go to tab 9" })
+
+        -- Tab navigation
+        vim.keymap.set("n", "<leader>gt", "<cmd>BufferLineCycleNext<CR>", { desc = "Next tab" })
+        vim.keymap.set("n", "<leader>gT", "<cmd>BufferLineCyclePrev<CR>", { desc = "Previous tab" })
+
+        -- Tab management
+        vim.keymap.set("n", "<leader>tc", "<cmd>BufferLineClose<CR>", { desc = "Close current tab" })
+        vim.keymap.set("n", "<leader>to", "<cmd>BufferLineCloseOthers<CR>", { desc = "Close other tabs" })
+        vim.keymap.set("n", "<leader>tr", "<cmd>BufferLineCloseRight<CR>", { desc = "Close tabs to the right" })
+        vim.keymap.set("n", "<leader>tl", "<cmd>BufferLineCloseLeft<CR>", { desc = "Close tabs to the left" })
+        vim.keymap.set("n", "<leader>tn", "<cmd>enew<CR>", { desc = "New tab" })
+        vim.keymap.set("n", "<leader>tp", "<cmd>BufferLineTogglePin<CR>", { desc = "Pin/unpin tab" })
+        vim.keymap.set("n", "<leader>tm", "<cmd>BufferLineMoveNext<CR>", { desc = "Move tab right" })
+        vim.keymap.set("n", "<leader>tM", "<cmd>BufferLineMovePrev<CR>", { desc = "Move tab left" })
+        vim.keymap.set("n", "<leader>ts", "<cmd>BufferLineSortByExtension<CR>", { desc = "Sort tabs by extension" })
     end
 } 
