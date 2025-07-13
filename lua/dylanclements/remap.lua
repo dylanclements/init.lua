@@ -176,4 +176,38 @@ vim.keymap.set("n", "<leader>rr", function()
     end
 end, { desc = "Reload Neovim config" })
 
+-- Elegant exit with save prompt
+vim.keymap.set("n", "<leader>q", function()
+    -- Check if there are any unsaved changes
+    local has_unsaved = false
+    local buffers = vim.api.nvim_list_bufs()
+    
+    for _, buf in ipairs(buffers) do
+        if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_get_option(buf, "modifiable") then
+            if vim.api.nvim_buf_get_option(buf, "modified") then
+                has_unsaved = true
+                break
+            end
+        end
+    end
+    
+    if has_unsaved then
+        -- Show a confirmation dialog
+        local choice = vim.fn.confirm("You have unsaved changes. Save before quitting?", "&Yes\n&No\n&Cancel", 1)
+        
+        if choice == 1 then
+            -- Save all buffers
+            vim.cmd("wall")
+            vim.cmd("qa")
+        elseif choice == 2 then
+            -- Quit without saving
+            vim.cmd("qa!")
+        end
+        -- choice == 3 means cancel, do nothing
+    else
+        -- No unsaved changes, just quit
+        vim.cmd("qa")
+    end
+end, { desc = "Exit Neovim with save prompt" })
+
 
