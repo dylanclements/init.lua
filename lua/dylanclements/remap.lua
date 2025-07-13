@@ -14,7 +14,7 @@ vim.keymap.set("n", "<leader>tr", function()
     if tree_exists then
         local tree_api = require("nvim-tree.api")
         local tree_view = require("nvim-tree.view")
-        
+
         if tree_view.is_visible() then
             -- Get the tree window
             local tree_win = tree_view.get_winnr()
@@ -24,18 +24,18 @@ vim.keymap.set("n", "<leader>tr", function()
                 if tree_buf ~= -1 then
                     local lines = vim.api.nvim_buf_get_lines(tree_buf, 0, -1, false)
                     local max_width = 0
-                    
+
                     for _, line in ipairs(lines) do
                         local line_width = vim.fn.strdisplaywidth(line)
                         if line_width > max_width then
                             max_width = line_width
                         end
                     end
-                    
+
                     -- Add some padding and set the width
                     local new_width = math.min(max_width + 5, vim.o.columns - 10)
                     vim.api.nvim_win_set_width(tree_win, new_width)
-                    
+
                     vim.notify("Resized nvim-tree to fit content", vim.log.levels.INFO)
                 end
             end
@@ -101,7 +101,7 @@ vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 -- search
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
--- grand executable permission to file
+-- grant executable permission to file
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true });
 
 -- go to packer.lua
@@ -119,9 +119,7 @@ vim.keymap.set("n", "<leader><", "5<C-W><");
 vim.keymap.set("t", "<C-w>n", "<C-\\><C-n>");
 vim.keymap.set("n", "<leader>vt", ":vsplit | terminal<CR><C-w>L", { silent = true });
 
--- go to next/previous buffer
-vim.keymap.set("n", "<leader>n", ":bn<CR>");
-vim.keymap.set("n", "<leader>b", ":bp<CR>");
+-- list what's changed
 vim.keymap.set("n", "<leader>ls", ":ls<CR>");
 
 -- resize windows
@@ -134,24 +132,24 @@ vim.keymap.set("n", "_", [[<cmd>horizontal resize -2<cr>]]) -- make the window s
 vim.keymap.set("n", "<leader>=", function()
     -- Get the number of windows
     local num_windows = vim.fn.winnr('$')
-    
+
     if num_windows > 1 then
         -- Calculate equal width
         local total_width = vim.o.columns
         local equal_width = math.floor(total_width / num_windows)
-        
+
         -- Store current window
         local current_win = vim.api.nvim_get_current_win()
-        
+
         -- Resize each window
         for i = 1, num_windows do
             local win_id = vim.fn.win_getid(i)
             vim.api.nvim_win_set_width(win_id, equal_width)
         end
-        
+
         -- Return focus to original window
         vim.api.nvim_set_current_win(current_win)
-        
+
         vim.notify(string.format("Resized %d windows to equal width", num_windows), vim.log.levels.INFO)
     else
         vim.notify("Only one window open", vim.log.levels.INFO)
@@ -191,7 +189,7 @@ vim.keymap.set("n", "<leader>ts", "<cmd>BufferLineSortByExtension<CR>", { desc =
 vim.keymap.set("n", "<leader>lt", function()
     local bufnr = vim.api.nvim_get_current_buf()
     local clients = vim.lsp.get_active_clients({ bufnr = bufnr })
-    
+
     if #clients > 0 then
         -- LSP is active, detach all clients from this buffer
         for _, client in pairs(clients) do
