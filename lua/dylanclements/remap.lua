@@ -185,6 +185,22 @@ vim.keymap.set("n", "<leader>tm", "<cmd>BufferLineMoveNext<CR>", { desc = "Move 
 vim.keymap.set("n", "<leader>tM", "<cmd>BufferLineMovePrev<CR>", { desc = "Move tab left" })
 vim.keymap.set("n", "<leader>ts", "<cmd>BufferLineSortByExtension<CR>", { desc = "Sort tabs by extension" })
 
+-- Reload Neovim configuration with feedback
+vim.keymap.set("n", "<leader>rr", function()
+    local success, result = pcall(vim.cmd, "source ~/.config/nvim/init.lua")
+    if success then
+        vim.notify("✅ Neovim configuration reloaded successfully!", vim.log.levels.INFO, {
+            title = "Config Reload",
+            timeout = 2000,
+        })
+    else
+        vim.notify("❌ Failed to reload configuration: " .. tostring(result), vim.log.levels.ERROR, {
+            title = "Config Reload Error",
+            timeout = 5000,
+        })
+    end
+end, { desc = "Reload Neovim config" })
+
 -- LSP toggle for current buffer
 vim.keymap.set("n", "<leader>lt", function()
     local bufnr = vim.api.nvim_get_current_buf()
