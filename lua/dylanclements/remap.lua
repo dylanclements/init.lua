@@ -158,6 +158,26 @@ end, { desc = "Make all windows equal width" })
 -- python
 vim.keymap.set("n", "<leader>py", ":!python %<CR>", { desc = "Run Python file" })
 
+-- Bazel build system
+vim.keymap.set("n", "<leader>bb", function()
+    require("dylanclements.bazel").run_bazel_build()
+end, { desc = "Run Bazel build for current target" })
+
+vim.keymap.set("n", "<leader>bl", function()
+    require("dylanclements.bazel").list_targets()
+end, { desc = "List all Bazel targets" })
+
+vim.keymap.set("n", "<leader>bt", function()
+    local target_name = vim.fn.input("Enter target name: ")
+    if target_name ~= "" then
+        require("dylanclements.bazel").run_specific_target(target_name)
+    end
+end, { desc = "Run specific Bazel target" })
+
+vim.keymap.set("n", "<leader>bp", function()
+    require("dylanclements.bazel").show_target_picker()
+end, { desc = "Interactive Bazel target picker" })
+
 
 
 -- Reload Neovim configuration with feedback
