@@ -12,24 +12,30 @@ local function find_build_files()
     local current_dir = vim.fn.getcwd()
     local build_files = {}
     
-    -- Search for BUILD files in current directory and parents
-    local search_path = current_dir
-    local max_depth = 10 -- Prevent infinite loops
+    -- First, find the workspace root
+    local workspace_root = vim.fn.findfile("WORKSPACE", current_dir .. ";")
+    if workspace_root == "" then
+        return build_files
+    end
+    local workspace_dir = vim.fn.fnamemodify(workspace_root, ":h")
     
-    for i = 1, max_depth do
-        local build_file = vim.fn.findfile("BUILD", search_path .. ";")
-        if build_file ~= "" then
-            table.insert(build_files, build_file)
+    -- Find all BUILD files in the workspace recursively
+    local function find_build_files_recursive(dir)
+        local files = vim.fn.glob(dir .. "/BUILD", false, true)
+        for _, file in ipairs(files) do
+            table.insert(build_files, file)
         end
         
-        -- Move up one directory
-        local parent = vim.fn.fnamemodify(search_path, ":h")
-        if parent == search_path then
-            break -- Reached root directory
+        -- Find subdirectories and recurse
+        local subdirs = vim.fn.glob(dir .. "/*", true, true)
+        for _, subdir in ipairs(subdirs) do
+            if vim.fn.isdirectory(subdir) == 1 then
+                find_build_files_recursive(subdir)
+            end
         end
-        search_path = parent
     end
     
+    find_build_files_recursive(workspace_dir)
     return build_files
 end
 
@@ -44,22 +50,40 @@ local function extract_targets_from_build_file(build_file_path)
     local content = file:read("*all")
     file:close()
     
-    -- Look for common Bazel target patterns
-    for target_type in content:gmatch("([a-z_]+)%s*%(") do
-        if target_type == "cc_binary" or target_type == "cc_library" or 
+    -- Parse the content line by line to avoid duplicate matches
+    local lines = {}
+    for line in content:gmatch("[^\r\n]+") do
+        table.insert(lines, line)
+    end
+    
+    local current_target_type = nil
+    local current_target_name = nil
+    
+    for _, line in ipairs(lines) do
+        -- Look for target type
+        local target_type = line:match("^%s*([a-z_]+)%s*%(")
+        if target_type and (target_type == "cc_binary" or target_type == "cc_library" or 
            target_type == "cc_test" or target_type == "java_binary" or 
            target_type == "java_library" or target_type == "java_test" or
            target_type == "py_binary" or target_type == "py_library" or
            target_type == "py_test" or target_type == "go_binary" or
-           target_type == "go_library" or target_type == "go_test" then
-            
-            -- Extract the target name
-            for target_name in content:gmatch('name%s*=%s*["\']([^"\']+)["\']') do
+           target_type == "go_library" or target_type == "go_test") then
+            current_target_type = target_type
+            current_target_name = nil
+        end
+        
+        -- Look for name attribute in the same target
+        if current_target_type then
+            local target_name = line:match('name%s*=%s*["\']([^"\']+)["\']')
+            if target_name then
+                current_target_name = target_name
                 table.insert(targets, {
                     name = target_name,
-                    type = target_type,
+                    type = current_target_type,
                     build_file = build_file_path
                 })
+                current_target_type = nil
+                current_target_name = nil
             end
         end
     end
@@ -68,7 +92,7 @@ local function extract_targets_from_build_file(build_file_path)
 end
 
 -- Function to get all available targets
-local function get_available_targets()
+function M.get_available_targets()
     if not is_bazel_workspace() then
         return {}
     end
@@ -90,7 +114,7 @@ end
 local function find_relevant_target()
     local current_file = vim.fn.expand("%:p")
     local current_dir = vim.fn.expand("%:p:h")
-    local targets = get_available_targets()
+    local targets = M.get_available_targets()
     
     if #targets == 0 then
         return nil
@@ -109,7 +133,7 @@ local function find_relevant_target()
 end
 
 -- Function to build the target path for Bazel
-local function get_target_path(target)
+function M.get_target_path(target)
     if not target then
         return nil
     end
@@ -119,14 +143,14 @@ local function get_target_path(target)
     local workspace_dir = vim.fn.fnamemodify(workspace_root, ":h")
     
     -- Calculate relative path from workspace root to build file directory
-    local current_dir = vim.fn.getcwd()
-    vim.fn.chdir(workspace_dir)
     local relative_path = vim.fn.fnamemodify(build_file_dir, ":.")
-    vim.fn.chdir(current_dir)
+    if relative_path == "." then
+        relative_path = ""
+    end
     
     -- Construct the target path
     local target_path
-    if relative_path == "." then
+    if relative_path == "" then
         target_path = "//:" .. target.name
     else
         target_path = "//" .. relative_path .. ":" .. target.name
@@ -145,7 +169,7 @@ function M.run_bazel_build()
         return
     end
     
-    local targets = get_available_targets()
+    local targets = M.get_available_targets()
     if #targets == 0 then
         vim.notify("❌ No Bazel build targets found in current workspace", vim.log.levels.WARN, {
             title = "Bazel Build",
@@ -157,11 +181,20 @@ function M.run_bazel_build()
     -- If there's only one target, build it directly
     if #targets == 1 then
         local target = targets[1]
-        local target_path = get_target_path(target)
+        local target_path = M.get_target_path(target)
         if not target_path then
             vim.notify("❌ Could not determine target path", vim.log.levels.ERROR, {
                 title = "Bazel Build",
                 timeout = 3000,
+            })
+            return
+        end
+        
+        -- In test mode, just show notification instead of creating terminal
+        if vim.g.bazel_test_mode then
+            vim.notify(string.format("🚀 Building target: %s (test mode)", target_path), vim.log.levels.INFO, {
+                title = "Bazel Build",
+                timeout = 2000,
             })
             return
         end
@@ -191,7 +224,19 @@ function M.run_bazel_build()
             title = "Bazel Build",
             timeout = 2000,
         })
-        M.show_target_picker()
+        -- In test mode, just run the first target instead of showing picker
+        if vim.g.bazel_test_mode then
+            local target = targets[1]
+            local target_path = M.get_target_path(target)
+            if target_path then
+                vim.notify(string.format("🚀 Building first target: %s", target_path), vim.log.levels.INFO, {
+                    title = "Bazel Build",
+                    timeout = 2000,
+                })
+            end
+        else
+            M.show_target_picker()
+        end
     end
 end
 
@@ -205,7 +250,7 @@ function M.list_targets()
         return
     end
     
-    local targets = get_available_targets()
+    local targets = M.get_available_targets()
     if #targets == 0 then
         vim.notify("❌ No Bazel build targets found in current workspace", vim.log.levels.WARN, {
             title = "Bazel Targets",
@@ -217,7 +262,7 @@ function M.list_targets()
     -- Create a quickfix list with all targets
     local qf_list = {}
     for _, target in ipairs(targets) do
-        local target_path = get_target_path(target)
+        local target_path = M.get_target_path(target)
         table.insert(qf_list, {
             filename = target.build_file,
             lnum = 1,
@@ -245,7 +290,7 @@ function M.run_specific_target(target_name)
         return
     end
     
-    local targets = get_available_targets()
+    local targets = M.get_available_targets()
     local selected_target = nil
     
     for _, target in ipairs(targets) do
@@ -263,7 +308,16 @@ function M.run_specific_target(target_name)
         return
     end
     
-    local target_path = get_target_path(selected_target)
+    local target_path = M.get_target_path(selected_target)
+    
+    -- In test mode, just show notification instead of creating terminal
+    if vim.g.bazel_test_mode then
+        vim.notify(string.format("🚀 Building target: %s (test mode)", target_path), vim.log.levels.INFO, {
+            title = "Bazel Build",
+            timeout = 2000,
+        })
+        return
+    end
     
     -- Create vertical split and open terminal
     vim.cmd("vsplit")
@@ -288,11 +342,20 @@ end
 
 -- Function to run a Bazel command (build, test, run) on a target
 local function run_bazel_command(target, command_type)
-    local target_path = get_target_path(target)
+    local target_path = M.get_target_path(target)
     if not target_path then
         vim.notify("❌ Could not determine target path", vim.log.levels.ERROR, {
             title = "Bazel " .. command_type:upper(),
             timeout = 3000,
+        })
+        return
+    end
+    
+    -- In test mode, just show notification instead of creating terminal
+    if vim.g.bazel_test_mode then
+        vim.notify(string.format("🚀 %s target: %s (test mode)", command_type:upper(), target_path), vim.log.levels.INFO, {
+            title = "Bazel " .. command_type:upper(),
+            timeout = 2000,
         })
         return
     end
@@ -328,7 +391,7 @@ function M.show_target_picker()
         return
     end
     
-    local targets = get_available_targets()
+    local targets = M.get_available_targets()
     if #targets == 0 then
         vim.notify("❌ No Bazel build targets found in current workspace", vim.log.levels.WARN, {
             title = "Bazel Targets",
@@ -337,10 +400,19 @@ function M.show_target_picker()
         return
     end
     
+    -- In test mode, just show notification instead of picker
+    if vim.g.bazel_test_mode then
+        vim.notify(string.format("📋 Found %d Bazel targets (picker disabled in test mode)", #targets), vim.log.levels.INFO, {
+            title = "Bazel Targets",
+            timeout = 2000,
+        })
+        return
+    end
+    
     -- Create picker items
     local picker_items = {}
     for _, target in ipairs(targets) do
-        local target_path = get_target_path(target)
+        local target_path = M.get_target_path(target)
         table.insert(picker_items, {
             name = target.name,
             type = target.type,
@@ -447,7 +519,7 @@ function M.show_target_picker()
             -- Fallback to quickfix list
             local qf_list = {}
             for _, target in ipairs(targets) do
-                local target_path = get_target_path(target)
+                local target_path = M.get_target_path(target)
                 table.insert(qf_list, {
                     filename = target.build_file,
                     lnum = 1,

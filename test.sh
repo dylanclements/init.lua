@@ -102,8 +102,13 @@ main() {
     # Find all test_*.sh files
     local test_files=($(find . -name "test_*.sh" -type f | sort))
     
+    # Add Bazel test suite if it exists
+    if [ -f "test/bazel/run_bazel_tests.sh" ]; then
+        test_files+=("test/bazel/run_bazel_tests.sh")
+    fi
+    
     if [ ${#test_files[@]} -eq 0 ]; then
-        echo -e "${YELLOW}⚠️  No test_*.sh files found in the repository.${NC}"
+        echo -e "${YELLOW}⚠️  No test files found in the repository.${NC}"
         exit 0
     fi
     
