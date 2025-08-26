@@ -45,8 +45,14 @@ local ensure_installed = {
     -- rust
     "rust",
 
-    --
+    -- go
     "go",
+
+    -- c/c++
+    "c",
+    "cpp",
+    "cmake",
+    "make",
 }
 
 return {

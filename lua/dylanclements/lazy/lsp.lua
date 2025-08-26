@@ -36,6 +36,9 @@ local ensure_installed = {
 
     -- rust
     "rust_analyzer",
+
+    -- c/c++
+    "clangd",
 }
 
 
