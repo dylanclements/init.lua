@@ -57,6 +57,17 @@ autocmd("FileType", {
     end,
 })
 
+-- markdown: enable word wrap at window boundary
+autocmd("FileType", {
+    pattern = { "markdown" },
+    group = CustomIndentation,
+    callback = function()
+        vim.opt_local.wrap = true
+        vim.opt_local.linebreak = true
+        vim.opt_local.breakindent = true
+    end,
+})
+
 -- set these languages to 2 spaces
 autocmd("FileType", {
     pattern = {

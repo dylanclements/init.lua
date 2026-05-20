@@ -8,6 +8,10 @@ local ensure_installed = {
     "json",
     "prisma",
 
+    -- markdown
+    "markdown",
+    "markdown_inline",
+
     -- misc
     "yaml",
 
