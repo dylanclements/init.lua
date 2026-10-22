@@ -73,9 +73,21 @@ return {
             -- automatic_enable = false,
             handlers = {
                 function(server_name) -- default handler (optional)
-                    require("lspconfig")[server_name].setup {
-                        capabilities = capabilities
-                    }
+                    local lspconfig = require("lspconfig")
+                    if server_name == "jdtls" then
+                        local root_pattern = require("lspconfig.util").root_pattern(
+                            "pom.xml", "build.gradle", "settings.gradle", ".git")
+                        lspconfig.jdtls.setup {
+                            capabilities = capabilities,
+                            root_dir = function(fname)
+                                local ok, bazel_java = pcall(require, "bazel_java")
+                                if ok and bazel_java.is_managed_path(fname) then return nil end
+                                return root_pattern(fname)
+                            end,
+                        }
+                    else
+                        lspconfig[server_name].setup { capabilities = capabilities }
+                    end
                 end,
                 ["lua_ls"] = function()
                     local lspconfig = require("lspconfig")
@@ -101,6 +113,18 @@ return {
         })
 
         local cmp_select = { behavior = cmp.SelectBehavior.Select }
+        local bazel_source_ok, bazel_source = pcall(require, 'bazel_java.cmp_source')
+        if bazel_source_ok then
+            cmp.register_source('bazel_java', bazel_source.new())
+        end
+        local cmp_sources = {
+            { name = 'nvim_lsp' },
+            { name = 'luasnip' }, -- For luasnip users.
+        }
+        if bazel_source_ok then
+            table.insert(cmp_sources, 1, { name = 'bazel_java' })
+        end
+        local ordinary_confirm = cmp.mapping.confirm({ select = true })
 
         cmp.setup({
             snippet = {
@@ -111,13 +135,29 @@ return {
             mapping = cmp.mapping.preset.insert({
                 ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
                 ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-                ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+                ['<C-y>'] = cmp.mapping(function(fallback)
+                    local entry = cmp.get_selected_entry()
+                    if not entry and cmp.visible() then
+                        entry = cmp.get_entries()[1]
+                    end
+                    if not entry or entry.source.name ~= 'bazel_java' then
+                        ordinary_confirm(fallback)
+                        return
+                    end
+                    local item = entry:get_completion_item()
+                    local id = item.data and item.data.bazelJavaCompletionId
+                    cmp.abort()
+                    if type(id) ~= 'string' then
+                        vim.notify('Bazel Java completion candidate expired', vim.log.levels.WARN)
+                        return
+                    end
+                    require('bazel_java').accept_completion(id, {}, function(err)
+                        if err then vim.notify(err, vim.log.levels.WARN) end
+                    end)
+                end, { 'i', 's' }),
                 ["<C-Space>"] = cmp.mapping.complete(),
             }),
-            sources = cmp.config.sources({
-                { name = 'nvim_lsp' },
-                { name = 'luasnip' }, -- For luasnip users.
-            }, {
+            sources = cmp.config.sources(cmp_sources, {
                 { name = 'buffer' },
             })
         })
@@ -150,8 +190,13 @@ return {
                 end
                 vim.notify("LSP disabled for current buffer", vim.log.levels.INFO)
             else
-                -- LSP is inactive, reattach by triggering LSP setup
-                vim.cmd("LspStart")
+                -- Reattach the configured Java engine, or use the existing LSP setup.
+                local ok, bazel_java = pcall(require, "bazel_java")
+                if ok and vim.bo[bufnr].filetype == "java" and bazel_java.is_managed(bufnr) then
+                    bazel_java.attach(bufnr)
+                else
+                    vim.cmd("LspStart")
+                end
                 vim.notify("LSP enabled for current buffer", vim.log.levels.INFO)
             end
         end, { desc = "Toggle LSP for current buffer" })
@@ -176,13 +221,39 @@ return {
                 vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
 
                 -- Show available code actions for the current line (e.g., quick fixes or refactoring)
-                vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_action() end, opts)
+                vim.keymap.set("n", "<leader>vca", function()
+                    local ok, bazel_java = pcall(require, 'bazel_java')
+                    if ok and bazel_java.is_managed(e.buf) then
+                        bazel_java.code_action({ bufnr = e.buf }, function(err)
+                            if err then vim.notify(err, vim.log.levels.WARN) end
+                        end)
+                    else
+                        vim.lsp.buf.code_action()
+                    end
+                end, opts)
 
                 -- List all references to the symbol under the cursor
                 vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
 
                 -- Rename the symbol under the cursor
-                vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
+                vim.keymap.set("n", "<leader>vrn", function()
+                    local ok, bazel_java = pcall(require, 'bazel_java')
+                    if not ok or not bazel_java.is_managed(e.buf) then
+                        vim.lsp.buf.rename()
+                        return
+                    end
+                    local position, position_error = bazel_java.cursor_position(e.buf)
+                    if not position then
+                        vim.notify(position_error, vim.log.levels.WARN)
+                        return
+                    end
+                    vim.ui.input({ prompt = 'New Java name: ' }, function(name)
+                        if not name or name == '' then return end
+                        bazel_java.rename({ bufnr = e.buf, position = position, newName = name }, function(err)
+                            if err then vim.notify(err, vim.log.levels.WARN) end
+                        end)
+                    end)
+                end, opts)
 
                 -- Show signature help for the function signature in insert mode (useful for parameters)
                 vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
